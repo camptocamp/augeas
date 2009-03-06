@@ -5,7 +5,7 @@
    Author: Francois Deppierraz <francois.deppierraz@camptocamp.com>
    
    About: License
-   This file is licensed under the GPL
+   This file is licensed under the LGPL
 
    Todo:
       - Remove multiple whitespaces from keys
