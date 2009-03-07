@@ -10,6 +10,7 @@
    Todo:
       - Remove multiple whitespaces from keys
       - Remove multiple whitespaces from option values
+      - handle no options
 
 *)
 
@@ -48,9 +49,11 @@ let line = [ indent . option . (eol|comment) ]
 
 let item      = ( line | comment | empty )
 
-let section   = [ key word . ( spc . store words ) ? . eol .  item * ]
+let global    = [ key "global" . eol .  item * ]
 
-let lns       = (comment|empty) *  . section *
+let section   = [ key ( word - /global/ ) . [ ( spc . key word . spc . store word ) ? . eol .  item * ] ]
+
+let lns       = (comment|empty) * . global * .  section *
 
 let filter    = incl "/etc/haproxy/haproxy.cfg"
                 . Util.stdexcl
