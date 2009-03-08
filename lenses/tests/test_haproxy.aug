@@ -35,15 +35,17 @@ test Haproxy.lns get conf1 =
     { "daemon" }
     {  }
   }
-  { "listen" = "blah 0.0.0.0:80"
-    { "option httpchk" = "someuri" }
-    { "option    httpchk" = "someuri"
-      { "#comment" = "come comment" }
+  { "listen"
+    { "blah" =  "0.0.0.0:80"
+      { "option httpchk" = "someuri" }
+      { "option    httpchk" = "someuri"
+        { "#comment" = "come comment" }
+      }
+      { "option    httpchk" = "somemethod someuri" }
+      { "debug" }
+      { "option    httpchk" = "somemethod someuri someversion" }
+      { "option    blah" }
     }
-    { "option    httpchk" = "somemethod someuri" }
-    { "debug" }
-    { "option    httpchk" = "somemethod someuri someversion" }
-    { "option    blah" }
   }
 
 let conf2 = "# this config needs haproxy-1.1.28 or haproxy-1.2.1
