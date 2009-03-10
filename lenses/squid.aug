@@ -17,6 +17,7 @@ let spc         = Util.del_ws_spc
 
 let word        =  /[A-Za-z0-9!_.-]+(\[[0-9]+\])?/
 let sto_to_spc  = store /[^# \t\n]+/
+let sto_to_eol  = store /([^# \t\n][^#\n]*[^# \t\n]|[^# \t\n])/
 
 let comment     = Spacevars.comment
 let value (kw:string)
@@ -192,7 +193,6 @@ let entry_re =    "accept_filter"
                 | "log_access"
                 | "logfile_daemon"
                 | "logfile_rotate"
-                | "logformat"
                 | "log_fqdn"
                 | "log_icp_queries"
                 | "log_ip_on_direct"
@@ -382,10 +382,23 @@ let http_access
                  . (eol|comment) ]
 
 (************************************************************************
+ *                            LOG FORMAT 
+ *************************************************************************)
+
+let logformat_re
+               = "logformat"
+let logformat
+               = [ key logformat_re
+                 . spc
+                 . [ key word
+                   . spc
+                   . sto_to_eol . (eol|comment) ] ]
+
+(************************************************************************
  *                               LENS
  *************************************************************************)
 
-let lns         = Spacevars.lns (entry|auth|acl|http_access)
+let lns         = Spacevars.lns (entry|auth|acl|http_access|logformat)
 
 let filter      = Util.stdexcl
                 . incl "/etc/squid/squid.conf"

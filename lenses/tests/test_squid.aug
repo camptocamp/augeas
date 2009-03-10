@@ -187,3 +187,13 @@ test Squid.lns get debian_lenny_default =
   { "extension_methods" = "REPORT MERGE MKACTIVITY CHECKOUT" }
   { "hosts_file" = "/etc/hosts" }
   { "coredump_dir" = "/var/spool/squid" }
+
+let logformat = "logformat squid %ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/%<A %mt\nlogformat squidmime %ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/%<A %mt [%>h] [%<h]\n"
+
+test Squid.lns get logformat =
+{ "logformat"
+  { "squid" = "%ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/%<A %mt" }
+}
+{ "logformat"
+  { "squidmime" = "%ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/%<A %mt [%>h] [%<h]" }
+}
