@@ -49,9 +49,11 @@ let line = [ indent . option . (eol|comment) ]
 
 let item      = ( line | comment | empty )
 
-let global    = [ key "global" . eol .  item * ]
+let global_re = "global"|"defaults"
+let global    = [ key global_re . eol .  item * ]
 
-let section   = [ key ( word - /global/ ) . [ ( spc . key word . spc . store word ) ? . eol .  item * ] ]
+let section_re  = "listen"|"frontend"|"backend"
+let section     = [ key section_re . spc . [ key word .( spc . store word ) ? . eol .  item * ] ]
 
 let lns       = (comment|empty) * . global * .  section *
 
