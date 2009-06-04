@@ -14,7 +14,9 @@ let empty    = IniFile.empty
 let eol = Util.eol
 
 let del_opt_ws = del /[ \t]*/
-let sto_to_comment = del_opt_ws "" . store /[^;# \t\n][^;#\n]*[^;# \t\n]|[^;# \t\n]/
+let del_opt_sq = del "'"? "'"
+
+let sto_to_comment = del_opt_ws "" . del_opt_sq . store /[^;# \t\n][^;#\n]*[^;# \t\n]|[^;# \t\n]/ . del_opt_sq
 
 let entry (kw:regexp) (sep:lens) (comment:lens) = [ key kw . sep . sto_to_comment? . (comment|eol) ] | comment
 
