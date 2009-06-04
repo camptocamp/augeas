@@ -19,15 +19,16 @@ let spc     = Util.del_ws_spc
 let comment = Util.comment
 let empty   = Util.empty
 
-let sto_to_eol = store /([^# \t\n][^#\n]*[^# \t\n]|[^# \t\n])/
+let sto_to_eol = store /([^# \t\n'][^#\n']*[^# \t\n']|[^# \t\n'])/
 
 (************************************************************************
  *                               ENTRIES
  *************************************************************************)
 
+let del_quote = del "'"? "'"
 
 let entry (kw:regexp)
-               = [ key kw . spc . del "=" "=" . spc . sto_to_eol . (comment|eol) ]
+               = [ key kw . spc . del "=" "=" . spc . del_quote . sto_to_eol . del_quote . (comment|eol) ]
 let entry_re   = /[A-Za-z0-9\._-]+(\[[0-9]+\])?/
 
 (************************************************************************
