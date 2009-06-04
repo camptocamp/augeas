@@ -19,7 +19,7 @@ let spc     = Util.del_ws_spc
 let comment = Util.comment
 let empty   = Util.empty
 
-let sto_to_eol = store /([^ \t\n].*[^ \t\n]|[^ \t\n])/
+let sto_to_eol = store /([^# \t\n][^#\n]*[^# \t\n]|[^# \t\n])/
 
 (************************************************************************
  *                               ENTRIES
@@ -27,7 +27,7 @@ let sto_to_eol = store /([^ \t\n].*[^ \t\n]|[^ \t\n])/
 
 
 let entry (kw:regexp)
-               = [ key kw . spc . sto_to_eol . eol ]
+               = [ key kw . spc . del "=" "=" . spc . sto_to_eol . (comment|eol) ]
 let entry_re   = /[A-Za-z0-9\._-]+(\[[0-9]+\])?/
 
 (************************************************************************
@@ -43,5 +43,6 @@ let filter = Util.stdexcl
            . incl "/etc/havp/havp.config"
            . incl "/etc/ldap.conf"
            . incl "/etc/ldap/ldap.conf"
+           . incl "/tmp/postgresql.conf"
 
 let xfm = transform simple_lns filter
